@@ -1,4 +1,4 @@
-package com.healthcaremanagement.auth_service;
+package com.healthcaremanagement.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -37,10 +37,10 @@ public class Patient {
     @NotNull
     private String emergencyContact;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)  
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)  
     private List<MedicalRecord> medicalRecords;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY) 
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER) 
     private List<VaccinationRecord> vaccinationRecords;
 
     private String allergies;

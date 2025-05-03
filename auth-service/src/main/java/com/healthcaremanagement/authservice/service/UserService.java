@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ import com.healthcaremanagement.authservice.enums.Gender;
 import com.healthcaremanagement.authservice.exception.EmailAlreadyInUseException;
 import com.healthcaremanagement.authservice.exception.InternalServerErrorException;
 import com.healthcaremanagement.authservice.exception.InvalidCredentialsException;
+import com.healthcaremanagement.authservice.exception.UserNotFoundException;
 import com.healthcaremanagement.authservice.mapper.UserMapper;
 import com.healthcaremanagement.authservice.model.Role;
 import com.healthcaremanagement.authservice.model.User;
@@ -127,7 +127,7 @@ public class UserService {
 
                 return userResponseDTO;
             } else {
-                throw new UsernameNotFoundException("User not found");
+                throw new UserNotFoundException("User not found");
             }
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal Server Error");
@@ -151,7 +151,7 @@ public class UserService {
 
                 return userResponseDTO;
             } else {
-                throw new UsernameNotFoundException("User not found");
+                throw new UserNotFoundException("User not found");
             }
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal Server Error");
@@ -201,7 +201,7 @@ public class UserService {
 
                 return userResponseDTO;
             } else {
-                throw new UsernameNotFoundException("User not found");
+                throw new UserNotFoundException("User not found");
             }
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal Server Error");

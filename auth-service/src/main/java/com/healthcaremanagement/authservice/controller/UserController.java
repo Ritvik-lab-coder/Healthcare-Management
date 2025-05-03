@@ -53,14 +53,6 @@ public class UserController {
         return ResponseEntity.ok().body(userResponseDTOs);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable UUID id) {
-
-        UserResponseDTO userResponseDTO = userService.getUserById(id);
-
-        return ResponseEntity.ok().body(userResponseDTO);
-    }
-
     @GetMapping("/profile")
     public ResponseEntity<UserResponseDTO> getProfile() {
 
@@ -70,7 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/profile/update/{id}")
-    public ResponseEntity<UserResponseDTO> updateProfile(@PathVariable UUID id, @RequestBody UpdateUserProfileRequestDTO updateUserProfileRequestDTO) {
+    public ResponseEntity<UserResponseDTO> updateProfile(@PathVariable("id") UUID id, @RequestBody UpdateUserProfileRequestDTO updateUserProfileRequestDTO) {
 
         UserResponseDTO userResponseDTO = userService.updateProfile(id, updateUserProfileRequestDTO);
 
@@ -78,10 +70,18 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteProfile(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteProfile(@PathVariable("id") UUID id) {
 
         userService.deleteUser(id);
 
         return ResponseEntity.ok().body("User deleted successfully");
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") UUID id) {
+
+        UserResponseDTO userResponseDTO = userService.getUserById(id);
+
+        return ResponseEntity.ok().body(userResponseDTO);
     }
 }

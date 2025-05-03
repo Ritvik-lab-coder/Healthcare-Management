@@ -1,8 +1,4 @@
-package com.healthcaremanagement.authservice.security;
-
-import java.util.Date;
-import java.util.UUID;
-import java.util.function.Function;
+package com.healtcaremanagement.patientservice.security;
 
 import javax.crypto.SecretKey;
 
@@ -29,17 +25,6 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String generateToken(String email, UUID id) {
-
-        return Jwts.builder()
-                .id(id.toString())
-                .subject(email)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSigningKey())
-                .compact();
-    }
-
     private Claims extractAllClaims(String token) {
         
         return Jwts.parser()
@@ -49,31 +34,12 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+    public String extractId(String token) {
+        return extractAllClaims(token).getId();
     }
 
     public String extractEmail(String token) {
-
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public Date extractExpiration(String token) {
-
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public boolean isTokenExpired(String token) {
-
-        return extractExpiration(token).before(new Date());
-    }
-
-    public boolean validateToken(String token, String userEmail) {
-
-        final String extractedEmail = extractEmail(token);
-        return (extractedEmail.equals(userEmail) && !isTokenExpired(token));
+        return extractAllClaims(token).getSubject();
     }
 
     public boolean isTokenValid(String token) {

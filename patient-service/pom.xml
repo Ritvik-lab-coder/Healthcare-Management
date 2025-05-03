@@ -7,10 +7,10 @@
 		<artifactId>healthcare-management</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<groupId>com.healthcaremanagement</groupId>
-	<artifactId>auth-service</artifactId>
+	<groupId>com.healtcaremanagement</groupId>
+	<artifactId>patient-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>auth-service</name>
+	<name>patient-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -51,22 +51,20 @@
 			<artifactId>jjwt-api</artifactId>
 			<version>0.12.6</version>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

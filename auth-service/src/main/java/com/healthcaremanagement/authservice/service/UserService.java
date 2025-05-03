@@ -87,7 +87,7 @@ public class UserService {
             }
 
             UserResponseDTO userResponseDTO = UserMapper.toDTO(user);
-            String token = jwtUtil.generateToken(email);
+            String token = jwtUtil.generateToken(email, user.getId());
 
             LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
             loginResponseDTO.setUserResponseDTO(userResponseDTO);

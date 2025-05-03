@@ -9,14 +9,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InternalServerErrorException.class)
-    public ResponseEntity<String> handleGlobalException(GlobalExceptionHandler exceptionHandler) {
+    public ResponseEntity<String> handleInternalServerErrorException(InternalServerErrorException exception) {
 
-        return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ResponseEntity<String> handleEmailAlreadyInUseException(EmailAlreadyInUseException exception) {
 
-        return new ResponseEntity<>("Email already in use", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class) 
+    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException exception) {
+
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

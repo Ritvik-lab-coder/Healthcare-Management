@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.healtcaremanagement.patientservice.enums.BloodGroup;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -37,10 +38,10 @@ public class Patient {
     @NotNull
     private String emergencyContact;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)  
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)  
     private List<MedicalRecord> medicalRecords;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER) 
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true) 
     private List<VaccinationRecord> vaccinationRecords;
 
     private String allergies;

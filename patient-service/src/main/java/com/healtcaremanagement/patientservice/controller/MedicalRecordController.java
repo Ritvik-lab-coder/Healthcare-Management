@@ -64,6 +64,6 @@ public class MedicalRecordController {
 
         medicalRecordService.deleteRecord(id);
 
-        return ResponseEntity.ok().body("Record deleted successfully");
+        return ResponseEntity.ok().body("Medical record deleted successfully");
     }
 }

@@ -8,13 +8,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.healtcaremanagement.patientservice.model.MedicalRecord;
+import com.healtcaremanagement.patientservice.model.VaccinationRecord;
 
-public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, UUID> {
+public interface VaccinationRecordRepository extends JpaRepository<VaccinationRecord, UUID> {
 
-    public List<MedicalRecord> findByPatientId(UUID patientId);
+    public List<VaccinationRecord> findByPatientId(UUID patientId);
 
     @Modifying
-    @Query("DELETE FROM MedicalRecord m WHERE m.id = :id")
+    @Query("DELETE FROM VaccinationRecord v WHERE v.id = :id")
     public void deleteByIdDirect(@Param("id") UUID id);
+
 }

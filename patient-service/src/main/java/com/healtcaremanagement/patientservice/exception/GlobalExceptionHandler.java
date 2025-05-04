@@ -20,8 +20,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(RecordNotFoundException.class)
-    public ResponseEntity<String> handleRecordNotFoundException(RecordNotFoundException exception) {
+    @ExceptionHandler(MedicalRecordNotFoundException.class)
+    public ResponseEntity<String> handleRecordNotFoundException(MedicalRecordNotFoundException exception) {
+
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(VaccineRecordNotFoundException.class)
+    public ResponseEntity<String> handleVaccineRecordNotFoundException(VaccineRecordNotFoundException exception) {
 
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

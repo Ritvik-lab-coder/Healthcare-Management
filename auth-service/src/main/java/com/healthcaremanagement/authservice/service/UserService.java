@@ -7,8 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.healthcaremanagement.authservice.dto.LoginRequestDTO;
 import com.healthcaremanagement.authservice.dto.LoginResponseDTO;
@@ -46,6 +48,10 @@ public class UserService {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    @Qualifier("patientWebClient")
+    private WebClient patientWebClient;
 
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
 
@@ -209,6 +215,36 @@ public class UserService {
     }
 
     public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
+
+        try {
+            
+            Optional<User> optionalUser = userRepository.findById(id);
+
+            if (optionalUser.isPresent()) {
+
+                User user = optionalUser.get();
+
+                if (user.getRole().getName().equals("ROLE_PATIENT")) {
+
+                    String authHeader = request.getHeader("Authorization");
+                    String uuid = user.getId().toString();
+
+                    patientWebClient.delete()
+                        .uri("/patient/delete/" + uuid)
+                        .header("Authorization", authHeader)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
+
+                    userRepository.deleteById(id);
+                } else {
+                    userRepository.deleteById(id);
+                }
+            } else {
+                throw new UserNotFoundException("User not found");
+            }
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Internal Server Error");
+        }
     }
 }

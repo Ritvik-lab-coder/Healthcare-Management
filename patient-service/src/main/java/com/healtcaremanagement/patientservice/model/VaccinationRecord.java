@@ -23,7 +23,7 @@ public class VaccinationRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)  
+    @ManyToOne(fetch = FetchType.EAGER)  
     @JoinColumn(name = "patient_id", nullable = false)  
     private Patient patient;
 

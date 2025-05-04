@@ -150,4 +150,14 @@ public class PatientService {
             throw new InternalServerErrorException("Internal Server Error");
         }
     }
+
+    public void deletePatientById(UUID id) {
+
+        try {
+            
+            patientRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Internal Server Error");
+        }
+    }
 }

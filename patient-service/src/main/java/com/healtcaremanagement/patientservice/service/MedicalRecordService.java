@@ -8,13 +8,14 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.healtcaremanagement.patientservice.dto.MedicalRecordRequestDTO;
 import com.healtcaremanagement.patientservice.dto.MedicalRecordResponseDTO;
 import com.healtcaremanagement.patientservice.dto.MedicalRecordUpdateRequestDTO;
 import com.healtcaremanagement.patientservice.exception.InternalServerErrorException;
 import com.healtcaremanagement.patientservice.exception.PatientNotFoundException;
-import com.healtcaremanagement.patientservice.exception.RecordNotFoundException;
+import com.healtcaremanagement.patientservice.exception.MedicalRecordNotFoundException;
 import com.healtcaremanagement.patientservice.mapper.MedicalRecordMapper;
 import com.healtcaremanagement.patientservice.model.MedicalRecord;
 import com.healtcaremanagement.patientservice.model.Patient;
@@ -79,7 +80,7 @@ public class MedicalRecordService {
 
                 return MedicalRecordMapper.toDTO(medicalRecord);
             } else {
-                throw new RecordNotFoundException("Record not found");
+                throw new MedicalRecordNotFoundException("Record not found");
             }
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal server error");
@@ -146,18 +147,19 @@ public class MedicalRecordService {
 
                 return MedicalRecordMapper.toDTO(medicalRecord);
             } else {
-                throw new RecordNotFoundException("Record not found");
+                throw new MedicalRecordNotFoundException("Record not found");
             }
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal server error");
         }
     }
 
+    @Transactional
     public void deleteRecord(UUID id) {
 
         try {
             
-            medicalRecordRepository.deleteById(id);
+            medicalRecordRepository.deleteByIdDirect(id);
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal server error");
         }

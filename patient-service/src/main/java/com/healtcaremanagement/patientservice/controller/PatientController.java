@@ -1,5 +1,6 @@
 package com.healtcaremanagement.patientservice.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,13 @@ public class PatientController {
         patientService.deletePatient();
 
         return ResponseEntity.ok().body("Patient deleted successfully");
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
+
+        List<PatientResponseDTO> patients = patientService.getAllPatients();
+
+        return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 }

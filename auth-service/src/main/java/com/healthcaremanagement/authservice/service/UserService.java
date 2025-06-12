@@ -53,6 +53,10 @@ public class UserService {
     @Qualifier("patientWebClient")
     private WebClient patientWebClient;
 
+    @Autowired
+    @Qualifier("doctorWebClient")
+    private WebClient doctorWebClient;
+
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
 
         Optional<User> existingUser = userRepository.findByEmail(userRequestDTO.getEmail());
@@ -237,10 +241,22 @@ public class UserService {
                         .block();
 
                     userRepository.deleteById(id);
-                } else {
+                } else if (user.getRole().getName().equals("ROLE_DOCTOR")) {
+
+                    String authHeader = request.getHeader("Authorization");
+                    String uuid = user.getId().toString();
+
+                    doctorWebClient.delete()
+                        .uri("/doctor/delete/" + uuid)
+                        .header("Authorization", authHeader)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
+
                     userRepository.deleteById(id);
                 }
-            } else {
+            }
+             else {
                 throw new UserNotFoundException("User not found");
             }
         } catch (Exception e) {

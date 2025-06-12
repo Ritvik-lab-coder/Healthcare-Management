@@ -1,5 +1,7 @@
 package com.healtcaremanagement.patientservice.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -156,6 +158,23 @@ public class PatientService {
         try {
             
             patientRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Internal Server Error");
+        }
+    }
+
+    public List<PatientResponseDTO> getAllPatients() {
+
+        try {
+            
+            List<Patient> patients = patientRepository.findAll();
+
+            List<PatientResponseDTO> patientResponseDTOs = new ArrayList<>();
+            for (Patient patient : patients) {
+                patientResponseDTOs.add(PatientMapper.toDTO(patient));
+            }
+
+            return patientResponseDTOs;
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal Server Error");
         }

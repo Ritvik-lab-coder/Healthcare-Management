@@ -11,11 +11,22 @@ public class WebClientConfig {
     @Value("${patient.url}")
     private String patientUrl;
 
+    @Value("${doctor.url}")
+    private String doctorUrl;
+
     @Bean(name = "patientWebClient")
-    public WebClient webClient() {
+    public WebClient webClientPatient() {
 
         return WebClient.builder()
             .baseUrl(patientUrl)
+            .build();
+    }
+
+    @Bean(name = "doctorWebClient")
+    public WebClient webClientDoctor() {
+
+        return WebClient.builder()
+            .baseUrl(doctorUrl)
             .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.healthcaremanagement.doctorservice.model;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -31,10 +31,10 @@ public class Schedule {
     private String dayOfWeek;
 
     @NotNull
-    private LocalDate startTime;
+    private LocalTime startTime;
 
     @NotNull
-    private LocalDate endTime;
+    private LocalTime endTime;
 
     @NotNull
     private boolean isAvailable = true;

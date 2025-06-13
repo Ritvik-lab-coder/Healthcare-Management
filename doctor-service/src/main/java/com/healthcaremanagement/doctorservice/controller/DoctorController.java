@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthcaremanagement.doctorservice.dto.DoctorRequestDTO;
 import com.healthcaremanagement.doctorservice.dto.DoctorResponseDTO;
 import com.healthcaremanagement.doctorservice.dto.PatientResponseDTO;
+import com.healthcaremanagement.doctorservice.dto.ReviewRequestDTO;
+import com.healthcaremanagement.doctorservice.dto.ReviewResponseDTO;
+import com.healthcaremanagement.doctorservice.dto.ScheduleRequestDTO;
+import com.healthcaremanagement.doctorservice.dto.ScheduleResponseDTO;
+import com.healthcaremanagement.doctorservice.dto.ScheduleUpdateRequestDTO;
 import com.healthcaremanagement.doctorservice.dto.UpdateDoctorDetailsRequestDTO;
 import com.healthcaremanagement.doctorservice.service.DoctorService;
 
@@ -82,5 +87,53 @@ public class DoctorController {
         doctorService.deleteDoctor(id);
 
         return new ResponseEntity<>("Doctor deleted Successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/review/{doctorId}")
+    public ResponseEntity<String> addReview(@PathVariable("doctorId") UUID doctorId, @RequestBody ReviewRequestDTO reviewRequestDTO) {
+
+        doctorService.addReview(doctorId, reviewRequestDTO);
+
+        return new ResponseEntity<>("Review added successfully", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/reviews/{doctorId}")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviews(@PathVariable("doctorId") UUID doctorId) {
+
+        List<ReviewResponseDTO> reviews = doctorService.getReviewsByDoctorId(doctorId);
+
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @PostMapping("/add/schedule/{doctorId}")
+    public ResponseEntity<String> addSchedule(@PathVariable("doctorId") UUID doctorId, @RequestBody ScheduleRequestDTO scheduleRequestDTO) {
+
+        doctorService.addSchedule(doctorId, scheduleRequestDTO);
+
+        return new ResponseEntity<>("Schedule added successfully", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/schedule/{doctorId}")
+    public ResponseEntity<List<ScheduleResponseDTO>> getDoctorSchedule(@PathVariable("doctorId") UUID doctorId) {
+
+        List<ScheduleResponseDTO> schedule = doctorService.getDoctorSchedule(doctorId);
+
+        return new ResponseEntity<>(schedule, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/schedule/{scheduleId}")
+    public ResponseEntity<String> updateSchedule(@PathVariable("scheduleId") UUID scheduleId, @RequestBody ScheduleUpdateRequestDTO secheduleUpdateRequestDTO) {
+
+        doctorService.updateSchedule(scheduleId, secheduleUpdateRequestDTO);
+
+        return new ResponseEntity<>("Schedule updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/schedule/{scheduleId}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable("scheduleId") UUID scheduleId) {
+
+        doctorService.deleteSchedule(scheduleId);
+
+        return new ResponseEntity<>("Schedule deleted successfully", HttpStatus.OK);
     }
 }

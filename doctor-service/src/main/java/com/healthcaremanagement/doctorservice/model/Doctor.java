@@ -25,10 +25,10 @@ public class Doctor {
 
     @NotNull
     private Integer age;
-    
+
     @NotNull
     private String specialization;
-    
+
     @NotNull
     private Integer experience;
 
@@ -37,6 +37,9 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
     @NotNull
     @CreationTimestamp

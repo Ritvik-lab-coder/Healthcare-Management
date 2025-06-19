@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthcaremanagement.doctorservice.dto.DoctorProfileResponseDTO;
 import com.healthcaremanagement.doctorservice.dto.DoctorRequestDTO;
 import com.healthcaremanagement.doctorservice.dto.DoctorResponseDTO;
 import com.healthcaremanagement.doctorservice.dto.PatientResponseDTO;
@@ -58,11 +59,11 @@ public class DoctorController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<DoctorResponseDTO> getDoctorById(@PathVariable("id") UUID id) {
+    public ResponseEntity<DoctorProfileResponseDTO> getDoctorById(@PathVariable("id") UUID id) {
 
-        DoctorResponseDTO doctorResponseDTO = doctorService.getDoctorById(id);
+        DoctorProfileResponseDTO doctorProfileResponseDTO = doctorService.getDoctorById(id);
 
-        return new ResponseEntity<>(doctorResponseDTO, HttpStatus.OK);
+        return new ResponseEntity<>(doctorProfileResponseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/get/specialization/{specialization}")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.healthcaremanagement.doctorservice.dto.DoctorProfileResponseDTO;
 import com.healthcaremanagement.doctorservice.dto.DoctorRequestDTO;
 import com.healthcaremanagement.doctorservice.dto.DoctorResponseDTO;
 import com.healthcaremanagement.doctorservice.dto.PatientResponseDTO;
@@ -115,13 +116,35 @@ public class DoctorService {
         }
     }
 
-    public DoctorResponseDTO getDoctorById(UUID id) {
+    public DoctorProfileResponseDTO getDoctorById(UUID id) {
 
         try {
             Doctor doctor = doctorRepository.findById(id)
                     .orElseThrow(() -> new InternalServerErrorException("Doctor not found"));
 
-            return DoctorMapper.toDTO(doctor);
+            UserResponseDTO userResponseDTO = authWebClient.get()
+                    .uri("/user/get/" + id.toString())
+                    .header("Authorization", request.getHeader("Authorization"))
+                    .retrieve()
+                    .bodyToMono(UserResponseDTO.class)
+                    .block();
+
+            DoctorProfileResponseDTO doctorProfileResponseDTO = new DoctorProfileResponseDTO();
+
+            doctorProfileResponseDTO.setId(doctor.getId().toString());
+            doctorProfileResponseDTO.setAge(doctor.getAge());
+            doctorProfileResponseDTO.setAddress(userResponseDTO.getAddress());
+            doctorProfileResponseDTO.setAvailableDays(doctor.getAvailableDays());
+            doctorProfileResponseDTO.setContact(userResponseDTO.getContact());
+            doctorProfileResponseDTO.setCreatedAt(doctor.getCreatedAt().toString());
+            doctorProfileResponseDTO.setDateOfBirth(userResponseDTO.getDateOfBirth());
+            doctorProfileResponseDTO.setEmail(userResponseDTO.getEmail());
+            doctorProfileResponseDTO.setExperience(doctor.getExperience());
+            doctorProfileResponseDTO.setGender(userResponseDTO.getGender().toString());
+            doctorProfileResponseDTO.setName(userResponseDTO.getName());
+            doctorProfileResponseDTO.setSpecialization(doctor.getSpecialization());
+
+            return doctorProfileResponseDTO;
         } catch (Exception e) {
             throw new InternalServerErrorException("Internal Server Error");
         }

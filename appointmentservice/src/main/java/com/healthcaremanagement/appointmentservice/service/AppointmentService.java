@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.healthcaremanagement.appointmentservice.dto.AppointmentRequestDTO;
 import com.healthcaremanagement.appointmentservice.dto.AppointmentResponseDTO;
 import com.healthcaremanagement.appointmentservice.dto.AppointmentUpdateRequestDTO;
+import com.healthcaremanagement.appointmentservice.dto.BillRequestDTO;
+import com.healthcaremanagement.appointmentservice.dto.BillResponseDTO;
 import com.healthcaremanagement.appointmentservice.dto.DoctorProfileResponseDTO;
 import com.healthcaremanagement.appointmentservice.exception.InternalServerErrorException;
 import com.healthcaremanagement.appointmentservice.mapper.AppointmentMapper;
@@ -38,13 +40,15 @@ public class AppointmentService {
     @Qualifier("doctorWebClient")
     private WebClient doctorWebClient;
 
+    @Autowired
+    @Qualifier("billingWebClient")
+    private WebClient billingWebClient;
+
     public AppointmentResponseDTO createAppointment(UUID doctorId, AppointmentRequestDTO appointmentRequestDTO) {
 
         try {
 
             UUID patientId = ExtractIdUtil.extractUUID(request, jwtUtil);
-
-            System.out.println("above doctor web client");
 
             String doctorName = doctorWebClient.get()
                     .uri("/doctor/get/" + doctorId.toString())
@@ -54,7 +58,19 @@ public class AppointmentService {
                     .block()
                     .getName();
 
-            System.out.println("below doctor web client");
+            BillRequestDTO billRequestDTO = new BillRequestDTO();
+
+            billRequestDTO.setDescription("Appointment with Dr. " + doctorName + " on " + appointmentRequestDTO.getDate().toString() + " at " + appointmentRequestDTO.getTime().toString() + " for subject: " + appointmentRequestDTO.getSubject());
+            billRequestDTO.setAmount(1500.75F);
+            billRequestDTO.setDueDate(appointmentRequestDTO.getDate().plusDays(15));
+
+            billingWebClient.post()
+                .uri("/bill/create/" + patientId.toString())
+                .bodyValue(billRequestDTO)
+                .header("Authorization", request.getHeader("Authorization"))
+                .retrieve()
+                .bodyToMono(BillResponseDTO.class)
+                .block();
 
             Appointment appointment = AppointmentMapper.toModel(doctorId, patientId, appointmentRequestDTO, doctorName);
 
@@ -62,6 +78,7 @@ public class AppointmentService {
 
             return AppointmentMapper.toDTO(appointment);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalServerErrorException("Internal Server Error");
         }
     }

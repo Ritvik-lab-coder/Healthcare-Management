@@ -184,6 +184,9 @@ public class UserService {
                 if (updateUserProfileRequestDTO.getEmail() != null)
                     user.setEmail(updateUserProfileRequestDTO.getEmail());
 
+                if (updateUserProfileRequestDTO.getIsProfileComplete() != null)
+                    user.setIsProfileComplete(updateUserProfileRequestDTO.getIsProfileComplete());
+
                 if (updateUserProfileRequestDTO.getPassword() != null) {
 
                     String hashedPassword = passwordEncoder.encode(updateUserProfileRequestDTO.getPassword());

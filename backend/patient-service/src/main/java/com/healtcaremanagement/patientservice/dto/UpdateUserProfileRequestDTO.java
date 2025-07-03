@@ -1,4 +1,4 @@
-package com.healthcaremanagement.authservice.dto;
+package com.healtcaremanagement.patientservice.dto;
 
 import lombok.Data;
 

@@ -14,6 +14,7 @@ import com.healtcaremanagement.patientservice.dto.PatientProfileResponseDTO;
 import com.healtcaremanagement.patientservice.dto.PatientRequestDTO;
 import com.healtcaremanagement.patientservice.dto.PatientResponseDTO;
 import com.healtcaremanagement.patientservice.dto.UpdatePatientDetailsRequestDTO;
+import com.healtcaremanagement.patientservice.dto.UpdateUserProfileRequestDTO;
 import com.healtcaremanagement.patientservice.dto.UserResponseDTO;
 import com.healtcaremanagement.patientservice.enums.BloodGroup;
 import com.healtcaremanagement.patientservice.exception.InternalServerErrorException;
@@ -55,8 +56,20 @@ public class PatientService {
 
             patientRepository.save(patient);
 
+            UpdateUserProfileRequestDTO updateUserProfileRequestDTO = new UpdateUserProfileRequestDTO();
+            updateUserProfileRequestDTO.setIsProfileComplete(true);
+
+            authWebClient.put()
+                .uri("/user/profile/update/" + id.toString())
+                .header("Authorization", request.getHeader("Authorization"))
+                .bodyValue(updateUserProfileRequestDTO)
+                .retrieve()
+                .bodyToMono(UserResponseDTO.class)
+                .block();
+
             return PatientMapper.toDTO(patient);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalServerErrorException("Internal Server Error");
         }
     }
@@ -99,6 +112,7 @@ public class PatientService {
 
             return getProfile(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalServerErrorException("Internal Server Error");
         }
     }

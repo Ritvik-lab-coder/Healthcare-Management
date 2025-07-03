@@ -27,7 +27,7 @@ public class PatientMapper {
 
         Patient patient = new Patient();
 
-        patient.setAge(patientRequestDTO.getAge());
+        patient.setAge(Integer.parseInt(patientRequestDTO.getAge()));
 
         if (patientRequestDTO.getAllergies() == null)
             patient.setAllergies("");

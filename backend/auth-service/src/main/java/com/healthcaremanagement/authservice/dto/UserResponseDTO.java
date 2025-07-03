@@ -19,5 +19,7 @@ public class UserResponseDTO {
 
     private String address;
 
+    private Boolean isProfileComplete;
+
     private String role;
 }

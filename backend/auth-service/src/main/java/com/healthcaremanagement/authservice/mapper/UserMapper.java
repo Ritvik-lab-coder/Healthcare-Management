@@ -23,6 +23,7 @@ public class UserMapper {
         user.setDateOfBirth(LocalDate.parse(userRequestDTO.getDateOfBirth()));
         user.setAddress(userRequestDTO.getAddress());
         user.setCreatedAt(LocalDate.now());
+        user.setIsProfileComplete(false);
 
         return user;
     }
@@ -39,6 +40,7 @@ public class UserMapper {
         userResponseDTO.setContact(user.getContact());
         userResponseDTO.setAddress(user.getAddress());
         userResponseDTO.setRole(user.getRole().getName());
+        userResponseDTO.setIsProfileComplete(user.getIsProfileComplete());
 
         return userResponseDTO;
     }

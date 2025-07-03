@@ -54,6 +54,9 @@ public class User {
     private String address;
 
     @NotNull
+    private Boolean isProfileComplete;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;

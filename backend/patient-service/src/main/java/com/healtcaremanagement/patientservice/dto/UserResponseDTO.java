@@ -17,6 +17,8 @@ public class UserResponseDTO {
 
     private String contact;
 
+    private Boolean isProfileComplete;
+
     private String address;
 
     private String role;

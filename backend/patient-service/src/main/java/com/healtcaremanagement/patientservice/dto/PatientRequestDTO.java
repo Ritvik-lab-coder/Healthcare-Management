@@ -7,11 +7,11 @@ import lombok.Data;
 public class PatientRequestDTO {
 
     @NotBlank(message = "Age is required")
-    private Integer age;
-    
+    private String age;
+
     @NotBlank(message = "Blood group is required")
     private String bloodGroup;
-    
+
     @NotBlank(message = "Emergency contact is required")
     private String emergencyContact;
 
